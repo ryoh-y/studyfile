@@ -1,0 +1,6 @@
+#RUN timedatectl set-timezone Asia/Tokyo
+#RUN localectl set-locale LANG=ja_JP.utf8 
+
+RUN source /etc/locale.conf 
+
+CMD ["httpd", "-D", "FOREGROUND"]
