@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+    web:
+        container_name: projCon
+        build: .
+        ports:
+          - "80:80"
+          - "8000:8000"
+        volumes:
+          - .\mnt:/mnt/
+          - .\app:/home/xxx/
+          - .\install:/root/install
+        links:
+          - db
+        privileged: true
+        command: /sbin/init
+    db:
+        image: mysql:5.6
+        restart: always
+        container_name: mysql56
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --init-connect="SET NAMES utf8" --innodb_file_per_table=1 --innodb_file_format=BARRACUDA
+        environment:
+            MYSQL_ROOT_PASSWORD: xxx
+            MYSQL_DATABASE: xxx
+            MYSQL_USER: xxx
+            MYSQL_PASSWORD: xxx
+            TZ: "Asia/Tokyo"
+        volumes:
+          - .\data:/var/lib/mysql
+          - .\initdb.d:/docker-entrypoint-initdb.d
+        ports:
+          - "3306:3306"
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        environment:
+          - PMA_ARBITRARY=1
+          - PMA_HOST=db
+          - PMA_USER=xxx
+          - PMA_PASSWORD=xxx
+        links:
+          - db
+        ports:
+          - 8080:8080
