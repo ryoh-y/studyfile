@@ -21,7 +21,11 @@ source /etc/locale.conf
 
 
 
+##LINUX BASIC -----------------
 
+yum install epel-release
+
+yum install httpd
 
 
 
